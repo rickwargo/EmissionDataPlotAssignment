@@ -1,4 +1,4 @@
-# File:   plot5.R
+# File:   plot6.R
 # Date:   2015-05-23
 # Author: Rick Wargo
 #
