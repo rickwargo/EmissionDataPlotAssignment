@@ -1,4 +1,4 @@
-# File:   plot1.R
+# File:   plot2.R
 # Date:   2015-05-23
 # Author: Rick Wargo
 #
@@ -24,12 +24,10 @@ if (!exists('scc.data'))
 if ((nrow(nei.data) != sum(complete.cases(nei.data))) | (nrow(nei.data) != 6497651))
   stop("NEI data is incomplete. Cannot continue.")
 
-if (!exists('emissions.by.year')) {
-  # Define subset of NEI data to investigate question
-  baltimore.emissions <- nei.data[nei.data=='24510', c('Emissions', 'year')]
-  emissions.by.year <- aggregate(baltimore.emissions$Emissions, by=list(year=baltimore.emissions$year), FUN=sum)
-  names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
-}
+# Define subset of NEI data to investigate question
+baltimore.emissions <- nei.data[nei.data=='24510', c('Emissions', 'year')]
+emissions.by.year <- aggregate(baltimore.emissions$Emissions, by=list(year=baltimore.emissions$year), FUN=sum)
+names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
 
 # Redirect plot to 480x480 PNG file
 png(file='plot2.png', width=480, height=480)
