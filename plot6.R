@@ -55,8 +55,8 @@ emission.data$year <- as.factor(emission.data$year)
 emissions.by.year <- aggregate(emission.data$Emissions, by=list(year=emission.data$year,fips=emission.data$fips), FUN=sum)
 names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
 
-# Redirect plot to 480x480 PNG file
-png(file='plot6.png', width=480, height=480)
+# Redirect plot to 640x480 PNG file
+png(file='plot6.png', width=640, height=480)
 
 # Generate a plot for Point PM2.5 emissions by year for Baltimore
 p1 <- ggplot(data=subset(emissions.by.year, fips=='24510'), aes(x=year, y=Emissions)) + 
