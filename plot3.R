@@ -44,28 +44,28 @@ png(file='plot3.png', width=480, height=480)
 p1 <- ggplot(data=subset(emissions.by.year, type=='POINT'), aes(x=year, y=Emissions)) + 
         geom_bar(stat='identity') +
         xlab('Year') +
-        ylab(expression('PM'[2.5]*' Emissions (tons, thousands)')) +
+        ylab(expression('PM'[2.5]*' Emissions (tons)')) +
         ggtitle(expression('Point PM'[2.5]*' Emissions')) 
 
 # Generate a plot for Non-Point PM2.5 emissions by year for Baltimore
 p2 <- ggplot(data=subset(emissions.by.year, type=='NONPOINT'), aes(x=year, y=Emissions)) +
         geom_bar(stat='identity') +
         xlab('Year') +
-        ylab(expression('PM'[2.5]*' Emissions (tons, thousands)')) +
+        ylab(expression('PM'[2.5]*' Emissions (tons)')) +
         ggtitle(expression('Non-Point PM'[2.5]*' Emissions'))
 
 # Generate a plot for On-Road PM2.5 emissions by year for Baltimore
 p3 <- ggplot(data=subset(emissions.by.year, type=='ON-ROAD'), aes(x=year, y=Emissions)) +
         geom_bar(stat='identity') +
         xlab('Year') +
-        ylab(expression('PM'[2.5]*' Emissions (tons, thousands)')) +
+        ylab(expression('PM'[2.5]*' Emissions (tons)')) +
         ggtitle(expression('On-Road PM'[2.5]*' Emissions'))
 
 # Generate a plot for Non-Road PM2.5 emissions by year for Baltimore
 p4 <- ggplot(data=subset(emissions.by.year, type=='NON-ROAD'), aes(x=year, y=Emissions)) +
         geom_bar(stat='identity') +
         xlab('Year') +
-        ylab(expression('PM'[2.5]*' Emissions (tons, thousands)')) +
+        ylab(expression('PM'[2.5]*' Emissions (tons)')) +
         ggtitle(expression('Non-Road PM'[2.5]*' Emissions'))
 
 # Print the stored plots manipulating the viewport to show a main title in the first row, followed by x 2x2 set of plots

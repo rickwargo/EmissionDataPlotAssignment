@@ -9,6 +9,9 @@
 # Explore the data and answer the following question:
 #   How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
 #
+# Data Selection
+#   As per the US definition of a motor vehicle, it appears the best 
+#
 # Modification History
 # RCW  2015-05-23  New today
 
@@ -26,37 +29,33 @@ if ((nrow(nei.data) != sum(complete.cases(nei.data))) | (nrow(nei.data) != 64976
   stop("NEI data is incomplete. Cannot continue.")
 
 # Define subset of NEI data to investigate question
-baltimore.emissions <- nei.data[nei.data=='24510', c('Emissions', 'year')]
-
-# Using the spreadsheet and directions from http://www.mass.gov/eea/agencies/massdep/service/online/sccs-emission-factors-and-naics-codes.html,
-# identify SCC coal combustion codes by searching for Combustion in SCC.Level.One and Coal in SCC.Level.Four.
-coal.combustion.scc <- scc.data[grep('Combustion', scc.data$SCC.Level.One, ignore.case=TRUE), ]
-coal.combustion.scc <- scc.data[grep('Coal', coal.combustion.scc$SCC.Level.Four, ignore.case=TRUE), ]
-
-# Using the shortened list of coal combustion SCC's, filter the NEI data
-# Use data.table for speed
-nei.dt <- data.table(nei.data)
-coal.cumbustion.scc.dt <- data.table(coal.combustion.scc)
+# To determine the Mobile Vehicles, investigation of data shows that type == 'ON-ROAD' has the following EI.Sector values:
+# -> Mobile - On-Road Gasoline Light Duty Vehicles
+# -> Mobile - On-Road Gasoline Heavy Duty Vehicles
+# -> Mobile - On-Road Diesel Light Duty Vehicles
+# -> Mobile - On-Road Diesel Heavy Duty Vehicles
+# Considering these are the only EI.Sectors for ON-ROAD, using type == 'ON-ROAD' complies with the US definition of a mobile vehicle
+nei.dt <- data.table(nei.data[nei.data$fips=='24510' & nei.data$type=='ON-ROAD', ])
+scc.data.dt <- data.table(scc.data)
 setkey(nei.dt, SCC)
-setkey(coal.cumbustion.scc.dt, SCC)
+setkey(scc.data.dt, SCC)
 
 # inner join the data sets with the common key (SCC)
-emission.data <- nei.dt[coal.cumbustion.scc.dt, nomatch=0]
+emission.data <- nei.dt[scc.data.dt, nomatch=0]
 
-# aggregate the data across the US by year
+# aggregate the mobile vehicle emission data by year for Baltimore City, MD
 emissions.by.year <- aggregate(emission.data$Emissions, by=list(year=emission.data$year), FUN=sum)
 names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
 
 # Redirect plot to 480x480 PNG file
 png(file='plot5.png', width=480, height=480)
 
-barplot(  emissions.by.year$Emissions/1000,
-          names = emissions.by.year$year,
-          main  = expression('Total Coal Combustion PM'[2.5]*' Emissions by Year'),
-          xlab  = 'Year',
-          ylab  = expression('PM'[2.5]*' Emissions (tons, thousands)')
+barplot(  emissions.by.year$Emissions,
+  names = emissions.by.year$year,
+  main  = expression('Total PM'[2.5]*' Mobile Vehicle Emissions by Year in Baltimore City, MD'),
+  xlab  = 'Year',
+  ylab  = expression('PM'[2.5]*' Emissions (tons)')
 )
-
 
 # Close&save the PNG file
 dev.off()
