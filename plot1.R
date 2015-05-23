@@ -17,7 +17,6 @@
 # It takes a while to read in the NEI data - if it does not exist in the environment, read it in.
 if (!exists('nei.data')) {
   nei.data <- readRDS('data/summarySCC_PM25.rds')
-  #nei.data$year = as.factor(nei.data$year)
 }
 if (!exists('scc.data'))
   scc.data <- readRDS('data/Source_Classification_Code.rds')
