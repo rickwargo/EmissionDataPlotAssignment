@@ -31,6 +31,7 @@ if (!exists('emissions.by.year')) {
   # Define subset of NEI data to investigate question
   baltimore.emissions <- nei.data[nei.data=='24510', c('Emissions', 'year', 'type')]
   baltimore.emissions$type <- as.factor(baltimore.emissions$type)
+  baltimore.emissions$year <- as.factor(baltimore.emissions$year)
   emissions.by.year <- aggregate(baltimore.emissions$Emissions, by=list(year=baltimore.emissions$year, type=baltimore.emissions$type), FUN=sum)
   names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
 }
@@ -43,7 +44,7 @@ p1 <- ggplot(data=subset(emissions.by.year, type=='POINT'), aes(x=year, y=Emissi
         geom_bar(stat='identity') +
         xlab('Year') +
         ylab(expression('PM'[2.5]*' Emissions (tons, thousands)')) +
-        ggtitle(expression('Point PM'[2.5]*' Emissions'))
+        ggtitle(expression('Point PM'[2.5]*' Emissions')) 
 
 # Generate a plot for Non-Point PM2.5 emissions by year for Baltimore
 p2 <- ggplot(data=subset(emissions.by.year, type=='NONPOINT'), aes(x=year, y=Emissions)) +
