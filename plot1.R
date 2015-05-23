@@ -25,10 +25,9 @@ if (!exists('scc.data'))
 if ((nrow(nei.data) != sum(complete.cases(nei.data))) | (nrow(nei.data) != 6497651))
   stop("NEI data is incomplete. Cannot continue.")
 
-if (!exists('nei.total.emissions.by.year')) {
-  nei.total.emissions.by.year <- aggregate(nei.data$Emissions, by=list(year=nei.data$year), FUN=sum)
-  names(nei.total.emissions.by.year)[names(nei.total.emissions.by.year) == 'x'] <- 'Emissions'
-}
+# Aggregate the emissions data by year
+nei.total.emissions.by.year <- aggregate(nei.data$Emissions, by=list(year=nei.data$year), FUN=sum)
+names(nei.total.emissions.by.year)[names(nei.total.emissions.by.year) == 'x'] <- 'Emissions'
 
 # Redirect plot to 480x480 PNG file
 png(file='plot1.png', width=480, height=480)

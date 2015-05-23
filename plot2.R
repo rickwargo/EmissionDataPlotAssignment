@@ -25,7 +25,9 @@ if ((nrow(nei.data) != sum(complete.cases(nei.data))) | (nrow(nei.data) != 64976
   stop("NEI data is incomplete. Cannot continue.")
 
 # Define subset of NEI data to investigate question
-baltimore.emissions <- nei.data[nei.data=='24510', c('Emissions', 'year')]
+baltimore.emissions <- nei.data[nei.data$fips=='24510', c('Emissions', 'year')]
+
+# Aggregate the emissions data by year for Baltimore City
 emissions.by.year <- aggregate(baltimore.emissions$Emissions, by=list(year=baltimore.emissions$year), FUN=sum)
 names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
 

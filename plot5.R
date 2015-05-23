@@ -1,4 +1,4 @@
-# File:   plot4.R
+# File:   plot5.R
 # Date:   2015-05-23
 # Author: Rick Wargo
 #
@@ -7,7 +7,7 @@
 # For each year, the table contains number of tons of PM2.5 emitted from a specific type of source for the entire year.
 #
 # Explore the data and answer the following question:
-#   Across the United States, how have emissions from coal combustion-related sources changed from 1999–2008?
+#   How have emissions from motor vehicle sources changed from 1999–2008 in Baltimore City?
 #
 # Modification History
 # RCW  2015-05-23  New today
@@ -24,6 +24,9 @@ if (!exists('scc.data'))
 # Data validation checks
 if ((nrow(nei.data) != sum(complete.cases(nei.data))) | (nrow(nei.data) != 6497651))
   stop("NEI data is incomplete. Cannot continue.")
+
+# Define subset of NEI data to investigate question
+baltimore.emissions <- nei.data[nei.data=='24510', c('Emissions', 'year')]
 
 # Using the spreadsheet and directions from http://www.mass.gov/eea/agencies/massdep/service/online/sccs-emission-factors-and-naics-codes.html,
 # identify SCC coal combustion codes by searching for Combustion in SCC.Level.One and Coal in SCC.Level.Four.
@@ -45,14 +48,15 @@ emissions.by.year <- aggregate(emission.data$Emissions, by=list(year=emission.da
 names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
 
 # Redirect plot to 480x480 PNG file
-png(file='plot4.png', width=480, height=480)
+png(file='plot5.png', width=480, height=480)
 
 barplot(  emissions.by.year$Emissions/1000,
-  names = emissions.by.year$year,
-  main  = expression('Total Coal Combustion PM'[2.5]*' Emissions by Year'),
-  xlab  = 'Year',
-  ylab  = expression('PM'[2.5]*' Emissions (tons, thousands)')
+          names = emissions.by.year$year,
+          main  = expression('Total Coal Combustion PM'[2.5]*' Emissions by Year'),
+          xlab  = 'Year',
+          ylab  = expression('PM'[2.5]*' Emissions (tons, thousands)')
 )
+
 
 # Close&save the PNG file
 dev.off()
