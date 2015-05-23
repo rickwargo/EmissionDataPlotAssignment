@@ -33,12 +33,12 @@ names(emissions.by.year)[names(emissions.by.year) == 'x'] <- 'Emissions'
 png(file='plot2.png', width=480, height=480)
 
 # Draw a bar plot of emissions by year, emissions in thousands of tons
-bp <- barplot(  emissions.by.year$Emissions/1000,
-                names = emissions.by.year$year,
-                main  = expression('Total PM'[2.5]*' Emissions by Year in Baltimore City, MD'),
-                xlab  = 'Year',
-                ylab  = expression('PM'[2.5]*' Emissions (tons, thousands)')
-)
+barplot(  emissions.by.year$Emissions/1000,
+  names = emissions.by.year$year,
+  main  = expression('Total PM'[2.5]*' Emissions by Year in Baltimore City, MD'),
+  xlab  = 'Year',
+  ylab  = expression('PM'[2.5]*' Emissions (tons, thousands)')
+  )
 
 # Close&save the PNG file
 dev.off()

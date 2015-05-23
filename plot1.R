@@ -34,12 +34,12 @@ if (!exists('nei.total.emissions.by.year')) {
 png(file='plot1.png', width=480, height=480)
 
 # Draw a bar plot of emissions by year, emissions in millions of tons
-bp <- barplot(  nei.total.emissions.by.year$Emissions/1000000,
-        names = nei.total.emissions.by.year$year,
-        main  = expression('Total PM'[2.5]*' Emissions by Year'),
-        xlab  = 'Year',
-        ylab  = expression('PM'[2.5]*' Emissions (tons, millions)')
-        )
+barplot(  nei.total.emissions.by.year$Emissions/1000000,
+  names = nei.total.emissions.by.year$year,
+  main  = expression('Total PM'[2.5]*' Emissions by Year'),
+  xlab  = 'Year',
+  ylab  = expression('PM'[2.5]*' Emissions (tons, millions)')
+  )
 
 # Close&save the PNG file
 dev.off()
